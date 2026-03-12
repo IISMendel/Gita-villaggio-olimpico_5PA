@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gita 5PA – Villaggio Paralimpico Milano 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rosso: #e8102a;
+    --verde: #009246;
+    --oro:   #f5c400;
+    --blu:   #0047ab;
+    --ciano: #00c8e8;
+    --viola: #8b1fa8;
+    --bianco: #f8feff;
+    --sfondo: #06121f;
+    --card: rgba(255,255,255,0.05);
+    --bordo: rgba(255,255,255,0.1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--sfondo);
+    color: var(--bianco);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 70% 40% at 10% 10%, rgba(0,146,70,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 60% at 90% 90%, rgba(232,16,42,0.1) 0%, transparent 60%),
+      linear-gradient(160deg, #06121f 0%, #0a1e30 60%, #06121f 100%);
+  }
+
+  /* ── CERCHI OLIMPICI DECORATIVI ── */
+  .rings-deco {
+    position:fixed; top:-30px; right:-20px; z-index:0; pointer-events:none;
+    opacity:0.06; font-size:14rem; letter-spacing:-1rem;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position:relative; z-index:1;
+    background: linear-gradient(135deg, #0a1e30 0%, #102840 100%);
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(90deg, var(--verde), var(--bianco), var(--rosso)) 1;
+    padding: 1.5rem 1.2rem 1.8rem;
+    text-align:center;
+  }
+
+  .scuola-badge {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50px; padding: 0.3rem 1rem;
+    font-size:0.82rem; font-weight:700; letter-spacing:1.5px;
+    text-transform:uppercase; color:rgba(200,230,255,0.7);
+    margin-bottom:1rem; animation: slideDown 0.5s ease both;
+  }
+
+  .header-titolo {
+    font-family:'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 9vw, 5.5rem);
+    line-height:0.9; letter-spacing:2px;
+    text-shadow: 0 0 40px rgba(0,200,232,0.3), 0 3px 0 rgba(0,0,0,0.4);
+    animation: slideDown 0.6s ease both;
+  }
+
+  .header-titolo .verde { color: var(--verde); }
+  .header-titolo .rosso { color: var(--rosso); }
+
+  .header-sub {
+    margin-top:0.8rem; font-size:1rem; font-weight:700;
+    color:rgba(200,230,255,0.75); animation: slideDown 0.7s ease both;
+    letter-spacing:0.3px;
+  }
+
+  .anelli {
+    display:flex; justify-content:center; gap:0.5rem;
+    margin-top:1rem; animation: slideDown 0.8s ease both;
+  }
+  .anello {
+    width:28px; height:28px; border-radius:50%; border:3.5px solid;
+    opacity:0.85;
+  }
+  .a1 { border-color:#0085c7; }
+  .a2 { border-color:#f4c300; }
+  .a3 { border-color:#000; background:rgba(255,255,255,.1); }
+  .a4 { border-color:#009f3d; }
+  .a5 { border-color:#df0024; }
+
+  /* ── CONTENITORE ── */
+  .container {
+    position:relative; z-index:1;
+    max-width:720px; margin:0 auto; padding:0 1rem 4rem;
+  }
+
+  .sezione-titolo {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:1.7rem; letter-spacing:2px; color:var(--ciano);
+    text-align:center; margin: 2rem 0 1.2rem;
+    display:flex; align-items:center; justify-content:center; gap:0.6rem;
+  }
+  .sezione-titolo::before, .sezione-titolo::after {
+    content:''; flex:1; max-width:60px; height:2px;
+    background: linear-gradient(90deg, transparent, var(--ciano));
+  }
+  .sezione-titolo::after { background: linear-gradient(90deg, var(--ciano), transparent); }
+
+  /* ── CARD RIEPILOGO ── */
+  .riepilogo-card {
+    background: linear-gradient(135deg, rgba(0,71,171,0.25), rgba(0,146,70,0.12));
+    border: 1.5px solid rgba(0,200,232,0.2);
+    border-radius:16px; padding:1.2rem 1.4rem;
+    margin-bottom:1.8rem; animation: fadeUp 0.5s ease both;
+  }
+  .riepilogo-grid {
+    display:grid; grid-template-columns: 1fr 1fr; gap:0.7rem;
+  }
+  .riepilogo-item {
+    display:flex; flex-direction:column; gap:0.15rem;
+  }
+  .riepilogo-label {
+    font-size:0.72rem; font-weight:800; letter-spacing:1.5px;
+    text-transform:uppercase; color:rgba(200,230,255,0.45);
+  }
+  .riepilogo-val {
+    font-size:1rem; font-weight:800; color:var(--bianco);
+  }
+  .riepilogo-val .ora { color:var(--oro); font-size:1.15rem; }
+  .riepilogo-divider {
+    grid-column:1/-1; height:1px;
+    background:rgba(255,255,255,0.08); margin:0.3rem 0;
+  }
+
+  /* ── GRUPPI DI SALITA ── */
+  .gruppi-label {
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:0.78rem; font-weight:800; letter-spacing:2px;
+    text-transform:uppercase; color:rgba(200,230,255,0.45);
+    margin-bottom:1rem; text-align:center;
+  }
+
+  .gruppo-card {
+    background: var(--card);
+    border: 1px solid var(--bordo);
+    border-radius:14px; padding:1.1rem;
+    margin-bottom:0.9rem;
+    transition: border-color 0.3s, transform 0.2s;
+    animation: fadeUp 0.5s ease both;
+    position:relative; overflow:hidden;
+  }
+  .gruppo-card::before {
+    content:'';
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+    border-radius:4px 0 0 4px;
+  }
+  .gruppo-card.g-legnano::before { background:var(--ciano); }
+  .gruppo-card.g-parabiago::before { background:var(--verde); }
+  .gruppo-card.g-rho::before { background:var(--viola); }
+  .gruppo-card.g-milano::before { background:var(--oro); }
+
+  .gruppo-card:hover { border-color:rgba(0,200,232,0.35); transform:translateX(4px); }
+
+  .gruppo-header {
+    display:flex; align-items:center; gap:0.8rem; margin-bottom:0.7rem;
+  }
+  .gruppo-icon { font-size:1.6rem; flex-shrink:0; }
+
+  .gruppo-titolo {
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:800; font-size:1.25rem; color:var(--bianco);
+    line-height:1;
+  }
+  .gruppo-titolo .stazione { color:var(--ciano); }
+
+  .ora-badge {
+    margin-left:auto; flex-shrink:0;
+    background:rgba(245,196,0,0.15);
+    border:1.5px solid rgba(245,196,0,0.4);
+    border-radius:8px; padding:0.25rem 0.7rem;
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:800; font-size:1.05rem; color:var(--oro);
+    letter-spacing:0.5px;
+  }
+
+  .gruppo-body {
+    font-size:0.9rem; color:rgba(200,230,255,0.8); line-height:1.6;
+  }
+  .gruppo-body strong { color:var(--bianco); }
+
+  /* badge linee */
+  .badge-linea {
+    display:inline-flex; align-items:center; gap:0.3rem;
+    padding:0.15rem 0.55rem; border-radius:20px;
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:800; font-size:0.82rem; vertical-align:middle; margin:0 2px;
+  }
+  .bs5  { background:#004b87; color:#fff; border:1.5px solid #5599dd; }
+  .bs6  { background:#006b40; color:#fff; border:1.5px solid #44bb77; }
+  .bm2  { background:#007030; color:#fff; border:1.5px solid #44bb77; }
+  .bm3  { background:#f9a615; color:#111; border:1.5px solid #ffd060; }
+
+  /* avviso speciale */
+  .avviso {
+    display:flex; gap:0.6rem; align-items:flex-start;
+    background:rgba(139,31,168,0.12);
+    border:1px solid rgba(139,31,168,0.3);
+    border-radius:8px; padding:0.65rem 0.9rem;
+    font-size:0.85rem; color:rgba(200,230,255,0.85);
+    margin-top:0.65rem; line-height:1.5;
+  }
+  .avviso-icon { font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+
+  .avviso-verde {
+    background:rgba(0,146,70,0.1);
+    border-color:rgba(0,146,70,0.3);
+  }
+  .avviso-oro {
+    background:rgba(245,196,0,0.08);
+    border-color:rgba(245,196,0,0.3);
+  }
+  .avviso-rosso {
+    background:rgba(232,16,42,0.1);
+    border-color:rgba(232,16,42,0.3);
+  }
+
+  /* ── MAPPA STEP ── */
+  .step-lista { margin-top:0.5rem; }
+
+  .step {
+    display:flex; gap:1rem; margin-bottom:0.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .step-left {
+    display:flex; flex-direction:column; align-items:center; min-width:44px;
+  }
+  .step-num {
+    width:44px; height:44px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue', sans-serif; font-size:1.35rem; flex-shrink:0;
+  }
+  .step-linea {
+    width:2px; flex:1; min-height:16px;
+    background:linear-gradient(to bottom,rgba(0,200,232,0.4),rgba(0,200,232,0.1));
+    margin:4px 0;
+  }
+  .step:last-child .step-linea { display:none; }
+
+  .step-card {
+    flex:1; background:var(--card);
+    border:1px solid var(--bordo); border-radius:12px;
+    padding:0.9rem 1rem; margin-bottom:0.6rem;
+    backdrop-filter:blur(4px);
+    transition:border-color 0.3s, transform 0.2s;
+  }
+  .step-card:hover { border-color:rgba(0,200,232,0.35); transform:translateX(3px); }
+
+  .step-header {
+    display:flex; align-items:center; gap:0.6rem; margin-bottom:0.45rem;
+  }
+  .step-ico { font-size:1.3rem; }
+  .step-title {
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:800; font-size:1.1rem; color:var(--bianco); line-height:1.1;
+  }
+  .step-title .acc { color:var(--ciano); }
+  .step-body {
+    font-size:0.88rem; color:rgba(200,230,255,0.8); line-height:1.55;
+  }
+  .step-body strong { color:var(--bianco); }
+
+  .sn1 { background:linear-gradient(135deg,#0055aa,#0033aa); color:#fff; }
+  .sn2 { background:linear-gradient(135deg,#007030,#005020); color:#fff; }
+  .sn3 { background:linear-gradient(135deg,#c07000,#e09000); color:#fff; }
+  .sn4 { background:linear-gradient(135deg,#0077bb,#005599); color:#fff; }
+  .sn5 { background:linear-gradient(135deg,#b01030,#880010); color:#fff; }
+
+  /* ── PIEDI A PIEDI BOX ── */
+  .cammino-box {
+    background:rgba(0,200,232,0.06);
+    border:1px solid rgba(0,200,232,0.2);
+    border-radius:10px; padding:0.9rem 1rem;
+    margin-top:0.6rem; font-size:0.88rem;
+    color:rgba(200,230,255,0.85); line-height:1.6;
+  }
+  .cammino-title {
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:800; font-size:0.95rem; color:var(--ciano);
+    margin-bottom:0.4rem; letter-spacing:0.5px;
+  }
+
+  /* ── PULSANTI MAPPA ── */
+  .map-btn {
+    display:inline-flex; align-items:center; gap:0.4rem;
+    margin-top:0.6rem; padding:0.35rem 0.85rem; border-radius:8px;
+    font-family:'Nunito', sans-serif; font-size:0.82rem; font-weight:700;
+    text-decoration:none; transition:opacity 0.2s, transform 0.2s;
+  }
+  .map-btn:hover { opacity:0.85; transform:translateY(-1px); }
+  .mbp { background:linear-gradient(135deg,#1a6ade,#0044aa); color:#fff; border:1px solid rgba(100,160,255,0.3); }
+  .mbs { background:rgba(255,255,255,0.07); color:var(--bianco); border:1px solid rgba(200,240,255,0.15); }
+
+  /* ── TRENORD BOX ── */
+  .trenord-box {
+    background:linear-gradient(135deg,rgba(0,75,135,0.25),rgba(0,71,171,0.12));
+    border:1.5px solid rgba(80,150,255,0.25);
+    border-radius:16px; padding:1.3rem 1.4rem;
+    margin-bottom:0.8rem; animation: fadeUp 0.5s ease 0.2s both;
+  }
+  .trenord-title {
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:800; font-size:1.15rem; color:var(--ciano);
+    margin-bottom:0.7rem; letter-spacing:1px;
+  }
+  .trenord-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;
+  }
+  .trenord-link {
+    display:flex; align-items:center; gap:0.5rem;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(100,160,255,0.2);
+    border-radius:10px; padding:0.7rem 0.9rem;
+    text-decoration:none; color:var(--bianco);
+    font-weight:700; font-size:0.85rem;
+    transition:background 0.2s, border-color 0.2s;
+  }
+  .trenord-link:hover { background:rgba(255,255,255,0.1); border-color:rgba(100,160,255,0.4); }
+  .trenord-link-ico { font-size:1.3rem; }
+
+  /* ── RITORNO BOX ── */
+  .ritorno-box {
+    background:linear-gradient(135deg,rgba(232,16,42,0.1),rgba(10,42,94,0.3));
+    border:1.5px solid rgba(232,16,42,0.2);
+    border-radius:18px; padding:1.4rem;
+    animation: fadeUp 0.5s ease 0.3s both;
+  }
+  .ritorno-titolo {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:1.6rem; letter-spacing:2px; color:var(--oro); margin-bottom:0.3rem;
+  }
+  .ritorno-sub {
+    font-size:0.88rem; color:rgba(200,230,255,0.6); margin-bottom:1.1rem;
+  }
+
+  .ritorno-step {
+    display:flex; gap:0.8rem; align-items:flex-start; margin-bottom:1rem;
+  }
+  .ritorno-num {
+    width:28px; height:28px; border-radius:50%; flex-shrink:0;
+    background:rgba(232,16,42,0.2); border:1.5px solid rgba(232,16,42,0.4);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue', sans-serif; font-size:1rem; color:var(--oro);
+    margin-top:2px;
+  }
+  .ritorno-content {
+    font-size:0.9rem; color:rgba(200,230,255,0.85); line-height:1.6; flex:1;
+  }
+  .ritorno-content strong { color:var(--bianco); }
+
+  .dir-box {
+    margin-top:0.65rem; border-radius:9px; padding:0.75rem 0.9rem; border:1px solid;
+  }
+  .dir-box-andata { background:rgba(0,146,70,0.1); border-color:rgba(0,146,70,0.3); }
+  .dir-box-ritorno { background:rgba(232,16,42,0.08); border-color:rgba(232,16,42,0.25); }
+  .dir-label {
+    font-family:'Barlow Condensed', sans-serif; font-size:0.75rem;
+    font-weight:800; letter-spacing:1.5px; text-transform:uppercase;
+    color:rgba(200,230,255,0.45); margin-bottom:0.35rem;
+  }
+  .dir-main {
+    font-size:1rem; font-weight:700; color:var(--bianco); margin-bottom:0.3rem;
+  }
+  .dir-note {
+    font-size:0.8rem; color:rgba(200,230,255,0.55); line-height:1.5;
+  }
+  .capolinea-tag {
+    display:inline-block; background:#004b87; color:#fff;
+    border:1.5px solid #5599dd; border-radius:5px;
+    padding:0.1rem 0.4rem; font-family:'Barlow Condensed', sans-serif;
+    font-size:0.88rem; font-weight:800; margin-right:0.3rem; vertical-align:middle;
+  }
+
+  /* ── NOTE ── */
+  .note-box {
+    background:rgba(245,196,0,0.06);
+    border:1px solid rgba(245,196,0,0.2);
+    border-radius:14px; padding:1.2rem;
+    animation: fadeUp 0.5s ease 0.4s both;
+  }
+  .note-titolo {
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:800; font-size:1.1rem; color:var(--oro);
+    margin-bottom:0.7rem; letter-spacing:1px;
+  }
+  .note-lista { list-style:none; display:flex; flex-direction:column; gap:0.45rem; }
+  .note-lista li {
+    font-size:0.88rem; color:rgba(200,230,255,0.85);
+    display:flex; gap:0.55rem; align-items:flex-start; line-height:1.5;
+  }
+  .note-lista li .bul { color:var(--verde); flex-shrink:0; }
+
+  /* ── FOOTER ── */
+  .footer {
+    position:relative; z-index:1; text-align:center;
+    padding:1.5rem; font-size:0.78rem; color:rgba(200,230,255,0.3);
+    border-top:1px solid rgba(0,200,232,0.08);
+  }
+
+  @keyframes slideDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(18px);  } to { opacity:1; transform:translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="scuola-badge">🏫 IIS Gregorio Mendel — Villa Cortese &nbsp;|&nbsp; Classe 5PA</div>
+  <div class="header-titolo">
+    <span class="verde">GITA</span> AL<br>
+    <span class="rosso">VILLAGGIO</span> PARALIMPICO
+  </div>
+  <div class="header-sub">📅 Venerdì 14 marzo 2026 &nbsp;•&nbsp; 📍 Via Lorenzini, Milano – Scalo Porta Romana</div>
+  <div class="anelli">
+    <div class="anello a1"></div>
+    <div class="anello a2"></div>
+    <div class="anello a3"></div>
+    <div class="anello a4"></div>
+    <div class="anello a5"></div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- RIEPILOGO -->
+  <div class="sezione-titolo">📋 In breve</div>
+  <div class="riepilogo-card">
+    <div class="riepilogo-grid">
+      <div class="riepilogo-item">
+        <span class="riepilogo-label">Treno</span>
+        <span class="riepilogo-val"><span class="badge-linea bs5">S5</span> delle <span class="ora">8:17</span></span>
+      </div>
+      <div class="riepilogo-item">
+        <span class="riepilogo-label">Partenza</span>
+        <span class="riepilogo-val">Legnano</span>
+      </div>
+      <div class="riepilogo-divider"></div>
+      <div class="riepilogo-item">
+        <span class="riepilogo-label">Arrivo</span>
+        <span class="riepilogo-val">Porta Garibaldi (~9:05)</span>
+      </div>
+      <div class="riepilogo-item">
+        <span class="riepilogo-label">Destinazione</span>
+        <span class="riepilogo-val">Villaggio Paralimpico</span>
+      </div>
+      <div class="riepilogo-divider"></div>
+      <div class="riepilogo-item">
+        <span class="riepilogo-label">Uscita</span>
+        <span class="riepilogo-val">⏱️ <span class="ora">13:50</span></span>
+      </div>
+      <div class="riepilogo-item">
+        <span class="riepilogo-label">Biglietto</span>
+        <span class="riepilogo-val">ATM urbano €2,20</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRENORD ORARI -->
+  <div class="sezione-titolo">🕐 Orari Trenord</div>
+  <div class="trenord-box">
+    <div class="trenord-title">🚆 Consulta gli orari ufficiali prima di partire</div>
+    <div class="trenord-grid">
+      <a class="trenord-link" href="https://www.trenord.it/linee-e-orari/circolazione/orario-ferroviario/" target="_blank">
+        <span class="trenord-link-ico">🚆</span>
+        <span>S5 — orari e fermate</span>
+      </a>
+      <a class="trenord-link" href="https://www.trenord.it/biglietti-e-abbonamenti/acquisto-online/" target="_blank">
+        <span class="trenord-link-ico">🎫</span>
+        <span>Acquisto biglietti</span>
+      </a>
+      <a class="trenord-link" href="https://www.trenord.it/linee-e-orari/circolazione/orario-ferroviario/" target="_blank">
+        <span class="trenord-link-ico">🚆</span>
+        <span>S6 — per chi viene da Magenta</span>
+      </a>
+      <a class="trenord-link" href="https://journeyplanner.trenord.it/" target="_blank">
+        <span class="trenord-link-ico">🗺️</span>
+        <span>Journey Planner Trenord</span>
+      </a>
+    </div>
+    <div class="avviso avviso-oro" style="margin-top:0.8rem">
+      <span class="avviso-icon">⚠️</span>
+      <span>Gli orari indicati in questa guida sono <strong>approssimativi</strong>. Verificate sempre su Trenord o Trenitalia prima di uscire di casa!</span>
+    </div>
+  </div>
+
+  <!-- ATM LINKS -->
+  <div class="sezione-titolo">🚇 Link utili ATM Milano</div>
+  <div class="trenord-box" style="background:linear-gradient(135deg,rgba(249,166,21,0.15),rgba(0,112,48,0.1)); border-color:rgba(249,166,21,0.25);">
+    <div class="trenord-title" style="color:var(--oro)">🚇 Metropolitana e mezzi ATM — pagine ufficiali</div>
+    <div class="trenord-grid" style="grid-template-columns:1fr 1fr">
+      <a class="trenord-link" href="https://www.atm.it/it/ViaggiaConNoi/Metropolitana/Pagine/M2.aspx" target="_blank">
+        <span class="trenord-link-ico">🟢</span>
+        <span><strong>M2 Verde</strong> — fermate e orari</span>
+      </a>
+      <a class="trenord-link" href="https://www.atm.it/it/ViaggiaConNoi/Metropolitana/Pagine/M3.aspx" target="_blank">
+        <span class="trenord-link-ico">🟡</span>
+        <span><strong>M3 Gialla</strong> — fermate e orari</span>
+      </a>
+      <a class="trenord-link" href="https://www.atm.it/it/ViaggiaConNoi/Pagine/RealTime.aspx" target="_blank">
+        <span class="trenord-link-ico">📡</span>
+        <span>ATM Tempo reale — partenze live</span>
+      </a>
+      <a class="trenord-link" href="https://www.atm.it/it/ViaggiaConNoi/Pagine/Biglietti.aspx" target="_blank">
+        <span class="trenord-link-ico">🎫</span>
+        <span>Biglietti ATM — prezzi e tipologie</span>
+      </a>
+      <a class="trenord-link" href="https://www.atm.it/it/ViaggiaConNoi/Pagine/App.aspx" target="_blank">
+        <span class="trenord-link-ico">📱</span>
+        <span>App ATM Milano — acquisto digitale</span>
+      </a>
+      <a class="trenord-link" href="https://www.atm.it/it/ViaggiaConNoi/Pagine/Pianificatore.aspx" target="_blank">
+        <span class="trenord-link-ico">🗺️</span>
+        <span>Pianificatore percorso ATM</span>
+      </a>
+    </div>
+    <div class="avviso avviso-oro" style="margin-top:.8rem">
+      <span class="avviso-icon">🎫</span>
+      <span>Biglietto singolo ATM: <strong>€2,20</strong> — vale 90 minuti su tutta la rete (metro M2 + M3 + bus + tram). Si acquista alle macchinette in stazione o sull'<strong>App ATM Milano</strong>.</span>
+    </div>
+  </div>
+
+  <!-- CHI SALE DOVE -->
+  <div class="sezione-titolo">🚉 Chi sale dove</div>
+  <div class="gruppi-label">Tutti prendono lo stesso treno S5 delle 8:17 — salgono in fermate diverse</div>
+
+  <!-- LEGNANO -->
+  <div class="gruppo-card g-legnano" style="animation-delay:.1s">
+    <div class="gruppo-header">
+      <span class="gruppo-icon">🟦</span>
+      <div>
+        <div class="gruppo-titolo">Fermata <span class="stazione">Legnano</span></div>
+        <div style="font-size:.78rem; color:rgba(200,230,255,.5); margin-top:2px">Capolinea occidentale della tratta</div>
+      </div>
+      <div class="ora-badge">⏰ 8:17</div>
+    </div>
+    <div class="gruppo-body">
+      <strong>La maggior parte della classe</strong> sale qui. È la fermata dove il treno <span class="badge-linea bs5">S5</span> parte (o effettua una delle prime fermate) — salite tranquillamente, ci sono posti.<br><br>
+      ✅ Direzione da cercare in stazione: <strong>TREVIGLIO</strong> o <strong>PIOLTELLO</strong> (entrambi passano per Porta Garibaldi)
+    </div>
+    <div class="avviso avviso-verde" style="margin-top:.6rem">
+      <span class="avviso-icon">ℹ️</span>
+      <span>Se avete l'S5 delle 8:17, verificate su Trenord che passi anche da Parabiago — così siete sicuri di prendere lo stesso treno del prof!</span>
+    </div>
+    <a class="map-btn mbs" href="https://www.google.com/maps/search/Stazione+Legnano/@45.5934,8.9141,16z" target="_blank">📍 Stazione di Legnano</a>
+  </div>
+
+  <!-- PARABIAGO -->
+  <div class="gruppo-card g-parabiago" style="animation-delay:.15s">
+    <div class="gruppo-header">
+      <span class="gruppo-icon">👨‍🏫</span>
+      <div>
+        <div class="gruppo-titolo">Fermata <span class="stazione">Parabiago</span></div>
+        <div style="font-size:.78rem; color:rgba(200,230,255,.5); margin-top:2px">+3-4 minuti da Legnano</div>
+      </div>
+      <div class="ora-badge">⏰ ~8:21</div>
+    </div>
+    <div class="gruppo-body">
+      Qui salgono il <strong>Prof, Allison</strong> e altri colleghi. È la fermata successiva a Legnano — se salite qui e vedete già i compagni sul treno, siete nel posto giusto! 👋
+    </div>
+    <div class="avviso avviso-verde">
+      <span class="avviso-icon">✅</span>
+      <span>Non preoccupatevi di trovare i compagni: salgono a Legnano sul vostro stesso treno. Li vedrete già seduti!</span>
+    </div>
+    <a class="map-btn mbs" href="https://www.google.com/maps/search/Stazione+Parabiago/@45.5581,8.9502,16z" target="_blank">📍 Stazione di Parabiago</a>
+  </div>
+
+  <!-- RHO / RHO FIERA -->
+  <div class="gruppo-card g-rho" style="animation-delay:.2s">
+    <div class="gruppo-header">
+      <span class="gruppo-icon">🟣</span>
+      <div>
+        <div class="gruppo-titolo">Fermate <span class="stazione">Rho</span> e <span class="stazione">Rho Fiera</span></div>
+        <div style="font-size:.78rem; color:rgba(200,230,255,.5); margin-top:2px">Per i ragazzi che vengono da Magenta</div>
+      </div>
+      <div class="ora-badge">⏰ ~8:33 / ~8:38</div>
+    </div>
+    <div class="gruppo-body">
+      I ragazzi che arrivano dalla zona di <strong>Magenta</strong> prendono prima la <span class="badge-linea bs6">S6</span> fino a <strong>Rho FS</strong>, poi salgono sul nostro <span class="badge-linea bs5">S5</span> che arriva da Legnano.<br><br>
+      <strong>Come fare:</strong>
+      <ol style="margin-top:.4rem; margin-left:1rem; line-height:1.8; font-size:.88rem">
+        <li>Da Magenta: prendere <span class="badge-linea bs6">S6</span> direzione <strong>Milano</strong></li>
+        <li>Scendere a <strong>Rho FS</strong></li>
+        <li>Salire sull'<span class="badge-linea bs5">S5</span> che arriva da Legnano direzione <strong>Treviglio/Pioltello</strong></li>
+      </ol>
+    </div>
+    <div class="avviso avviso-rosso" style="margin-top:.6rem">
+      <span class="avviso-icon">🚨</span>
+      <span>Chi sale a <strong>Rho o Rho Fiera</strong>: <strong>non scendete a Porta Garibaldi</strong> per errore — aspettate che lo faccia tutto il gruppo insieme!</span>
+    </div>
+    <a class="map-btn mbs" href="https://www.google.com/maps/search/Stazione+Rho/@45.5286,9.0403,16z" target="_blank">📍 Stazione di Rho</a>
+    <a class="map-btn mbp" href="https://www.trenord.it/linee-e-orari/circolazione/orario-ferroviario/" target="_blank" style="margin-left:.4rem">🚆 Orari S6 da Magenta</a>
+  </div>
+
+  <!-- MILANESI -->
+  <div class="gruppo-card g-milano" style="animation-delay:.25s">
+    <div class="gruppo-header">
+      <span class="gruppo-icon">🏙️</span>
+      <div>
+        <div class="gruppo-titolo">Chi viene direttamente <span class="stazione">da Milano</span></div>
+        <div style="font-size:.78rem; color:rgba(200,230,255,.5); margin-top:2px">Punto di ritrovo direttamente al Villaggio</div>
+      </div>
+      <div class="ora-badge">⏰ ~9:30</div>
+    </div>
+    <div class="gruppo-body">
+      Chi è già a Milano si fa trovare direttamente al <strong>Villaggio Paralimpico</strong>. Usate la M3 (gialla) fermata <strong>Lodi TIBB</strong>, poi seguite le indicazioni a piedi.<br><br>
+      📌 Punto di ritrovo: <strong>Ingresso principale Villaggio, Via Lorenzini — ore 9:30</strong>
+    </div>
+    <a class="map-btn mbp" href="https://www.google.com/maps/dir//Via+Lorenzini+Milano/@45.4462,9.2007,15z" target="_blank">📍 Via Lorenzini su Google Maps</a>
+  </div>
+
+  <!-- DA PORTA GARIBALDI AL VILLAGGIO -->
+  <div class="sezione-titolo">🗺️ Da Porta Garibaldi al Villaggio</div>
+
+  <div class="step-lista">
+    <!-- STEP 1 -->
+    <div class="step" style="animation-delay:.1s">
+      <div class="step-left">
+        <div class="step-num sn1">1</div>
+        <div class="step-linea"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-ico">🚉</span>
+          <div class="step-title">Scendete a <span class="acc">Porta Garibaldi</span></div>
+        </div>
+        <div class="step-body">
+          Tutto il gruppo scende a <strong>Milano Porta Garibaldi</strong> (Passante Ferroviario, sotterraneo). Aspettatevi: il treno ci mette circa <strong>40-45 minuti</strong> da Legnano.
+        </div>
+        <a class="map-btn mbs" href="https://www.google.com/maps/search/Stazione+Porta+Garibaldi+Milano/@45.4848,9.1869,16z" target="_blank">📍 Porta Garibaldi</a>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" style="animation-delay:.15s">
+      <div class="step-left">
+        <div class="step-num sn2">2</div>
+        <div class="step-linea"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-ico">🟢</span>
+          <div class="step-title"><span class="acc">Metro M2</span> (Verde) → Centrale FS</div>
+        </div>
+        <div class="step-body">
+          Usciti dal treno, seguite le indicazioni per la <strong>Metro M2 Verde</strong> <span class="badge-linea bm2">M2</span>.<br>
+          Prendete M2 direzione <strong>Cologno Nord / Gessate</strong> e scendete alla fermata successiva: <strong>Centrale FS</strong> (1 sola fermata, ~2 minuti).
+        </div>
+        <a class="map-btn mbs" href="https://www.google.com/maps/search/Metro+M2+Milano+Centrale/@45.4852,9.2045,17z" target="_blank">📍 Milano Centrale M2</a>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" style="animation-delay:.2s">
+      <div class="step-left">
+        <div class="step-num sn3">3</div>
+        <div class="step-linea"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-ico">🟡</span>
+          <div class="step-title">Cambia su <span class="acc">Metro M3</span> (Gialla) → Lodi TIBB</div>
+        </div>
+        <div class="step-body">
+          A Centrale FS cambiate sulla <strong>Metro M3 Gialla</strong> <span class="badge-linea bm3">M3</span> direzione <strong>San Donato</strong>. Scendete a <strong>Lodi TIBB</strong> — 10 fermate, circa 18 minuti.<br><br>
+          💡 <em>La M3 è quella gialla — cercate le insegne gialle in stazione.</em>
+
+          <!-- FERMATE M3 ANDATA -->
+          <div style="margin-top:.85rem; background:rgba(0,0,0,.2); border:1px solid rgba(249,166,21,.2); border-radius:10px; padding:.85rem 1rem;">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-size:.75rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:rgba(249,166,21,.55); margin-bottom:.6rem;">🟡 M3 ANDATA — Centrale FS → Lodi TIBB (dir. San Donato)</div>
+
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.28rem .35rem;background:rgba(0,200,232,.07);border:1px solid rgba(0,200,232,.2);border-radius:5px;">
+              <div style="width:13px;height:13px;border-radius:50%;background:var(--ciano);border:2px solid var(--ciano);box-shadow:0 0 6px rgba(0,200,232,.6);flex-shrink:0;"></div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;color:var(--ciano);">⬆️ SALITE QUI — Centrale FS</div>
+            </div>
+
+            <!-- fermate intermedie -->
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Caiazzo</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Loreto</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇 &nbsp;(interscambio M2 — non cambiate!)</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Pasteur</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Rovereto</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Udine</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Argonne</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Dateo</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Forlanini FS</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+              <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Brenta</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">quasi arrivati — prossima è la vostra! 🚇</div></div>
+            </div>
+            <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+            <div style="display:flex;align-items:center;gap:.7rem;padding:.28rem .35rem;background:rgba(0,200,232,.07);border:1px solid rgba(0,200,232,.2);border-radius:5px;margin-top:2px;">
+              <div style="width:13px;height:13px;border-radius:50%;background:var(--ciano);border:2px solid var(--ciano);box-shadow:0 0 6px rgba(0,200,232,.6);flex-shrink:0;"></div>
+              <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;color:var(--ciano);">⬇️ SCENDETE QUI — Lodi TIBB</div><div style="font-size:.73rem;color:rgba(200,230,255,.55);">Poi ~12 min a piedi fino a Via Lorenzini</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="avviso avviso-oro">
+          <span class="avviso-icon">🎫</span>
+          <span>Comprate il biglietto ATM <strong>€2,20</strong> alle macchinette prima di passare i tornelli. Vale 90 minuti su tutta la rete ATM (metro + bus + tram).</span>
+        </div>
+        <a class="map-btn mbs" href="https://www.google.com/maps/search/Metro+M3+Lodi+TIBB+Milano/@45.4462,9.2107,17z" target="_blank">📍 Lodi TIBB M3</a>
+        <a class="map-btn mbp" href="https://www.google.com/maps/dir/Stazione+Porta+Garibaldi+Milano/Via+Lorenzini+Milano" target="_blank" style="margin-left:.4rem">🗺️ Percorso su Google Maps</a>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step" style="animation-delay:.25s">
+      <div class="step-left">
+        <div class="step-num sn4">4</div>
+        <div class="step-linea"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-ico">🚶</span>
+          <div class="step-title">A piedi da Lodi TIBB → <span class="acc">Via Lorenzini</span></div>
+        </div>
+        <div class="step-body">
+          Usciti dalla metro, seguite le indicazioni verso <strong>Via Lorenzini</strong>. Il percorso a piedi dura circa <strong>10-12 minuti</strong>.
+        </div>
+        <div class="cammino-box">
+          <div class="cammino-title">🚶 Percorso a piedi da Lodi TIBB</div>
+          Uscite dalla metro → Via Caprilli → Via Lorenzini → seguite i cartelli <strong>Villaggio Paralimpico / Paralympic Village</strong>. Cercate le insegne Milano Cortina 2026!
+        </div>
+        <a class="map-btn mbp" href="https://www.google.com/maps/dir/Lodi+TIBB+Metro+Milano/Via+Lorenzini+20+Milano" target="_blank">🗺️ Percorso a piedi su Maps</a>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step" style="animation-delay:.3s">
+      <div class="step-left">
+        <div class="step-num sn5">5</div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-ico">🏅</span>
+          <div class="step-title">Siete al <span class="acc">Villaggio Paralimpico!</span></div>
+        </div>
+        <div class="step-body">
+          <strong>Via Lorenzini, Scalo Porta Romana — Villaggio Olimpico e Paralimpico Milano 2026</strong><br>
+          Ritrovo con i compagni milanesi all'ingresso principale alle <strong>9:30</strong>. Seguite le indicazioni della fondazione per visitatori e gruppi scolastici.
+        </div>
+        <a class="map-btn mbp" href="https://www.google.com/maps/search/Villaggio+Olimpico+Via+Lorenzini+Milano/@45.4462,9.2007,15z" target="_blank">📍 Villaggio Olimpico — Via Lorenzini</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- RITORNO -->
+  <div class="sezione-titolo">🔄 Ritorno — Uscita ore 13:50</div>
+  <div class="ritorno-box">
+    <div class="ritorno-titolo">🏠 Come tornare a casa</div>
+    <div class="ritorno-sub">Uscita dal Villaggio alle 13:50 — ecco il percorso inverso:</div>
+
+    <div class="ritorno-step">
+      <div class="ritorno-num">1</div>
+      <div class="ritorno-content">
+        <strong>🚶 A piedi fino a Lodi TIBB</strong><br>
+        Stessa strada dell'andata: Via Lorenzini → Lodi TIBB (~10-12 minuti a piedi).
+      </div>
+    </div>
+
+    <div class="ritorno-step">
+      <div class="ritorno-num">2</div>
+      <div class="ritorno-content">
+        <strong>🟡 M3 Gialla da Lodi TIBB → Centrale FS</strong><br>
+        Prendete M3 direzione <strong>Comasina o Maciachini</strong> (direzione opposta rispetto all'andata). Scendete a <strong>Centrale FS</strong> — 10 fermate, ~18 minuti.
+
+        <!-- FERMATE M3 RITORNO -->
+        <div style="margin-top:.8rem; background:rgba(0,0,0,.2); border:1px solid rgba(249,166,21,.2); border-radius:10px; padding:.85rem 1rem;">
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:.75rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:rgba(249,166,21,.55); margin-bottom:.6rem;">🟡 M3 RITORNO — Lodi TIBB → Centrale FS (dir. Comasina / Maciachini)</div>
+
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.28rem .35rem;background:rgba(0,200,232,.07);border:1px solid rgba(0,200,232,.2);border-radius:5px;">
+            <div style="width:13px;height:13px;border-radius:50%;background:var(--ciano);border:2px solid var(--ciano);box-shadow:0 0 6px rgba(0,200,232,.6);flex-shrink:0;"></div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;color:var(--ciano);">⬆️ SALITE QUI — Lodi TIBB</div>
+          </div>
+
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Brenta</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Forlanini FS</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Dateo</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Argonne</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Udine</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Rovereto</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Pasteur</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Loreto</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">rimanete a bordo 🚇 &nbsp;(interscambio M2 — non cambiate!)</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.25rem .35rem;">
+            <div style="width:11px;height:11px;border-radius:50%;background:#d08000;border:2px solid rgba(249,166,21,.4);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.93rem;">Caiazzo</div><div style="font-size:.73rem;color:rgba(200,230,255,.45);">quasi arrivati — prossima è la vostra! 🚇</div></div>
+          </div>
+          <div style="padding-left:.82rem;height:14px;"><div style="width:2px;height:100%;background:rgba(249,166,21,.3)"></div></div>
+          <div style="display:flex;align-items:center;gap:.7rem;padding:.28rem .35rem;background:rgba(0,200,232,.07);border:1px solid rgba(0,200,232,.2);border-radius:5px;margin-top:2px;">
+            <div style="width:13px;height:13px;border-radius:50%;background:var(--ciano);border:2px solid var(--ciano);box-shadow:0 0 6px rgba(0,200,232,.6);flex-shrink:0;"></div>
+            <div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;color:var(--ciano);">⬇️ SCENDETE QUI — Centrale FS</div><div style="font-size:.73rem;color:rgba(200,230,255,.55);">Poi M2 Verde 1 fermata → Porta Garibaldi</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ritorno-step">
+      <div class="ritorno-num">3</div>
+      <div class="ritorno-content">
+        <strong>🟢 M2 Verde da Centrale → Porta Garibaldi</strong><br>
+        M2 direzione <strong>Abbiategrasso / Assago</strong> — 1 sola fermata: <strong>Porta Garibaldi</strong>.
+      </div>
+    </div>
+
+    <div class="ritorno-step">
+      <div class="ritorno-num">4</div>
+      <div class="ritorno-content">
+        <strong>🚆 S5 da Porta Garibaldi → casa</strong><br>
+        Prendete il Passante e cercate l'S5:
+
+        <div class="dir-box dir-box-ritorno" style="margin-top:.7rem">
+          <div class="dir-label">🔴 Ritorno — capolinea da cercare</div>
+          <div class="dir-main">
+            <span class="capolinea-tag">S5</span> direzione <strong>VARESE</strong> oppure <strong>GALLARATE</strong>
+          </div>
+          <div class="dir-note">
+            Entrambi i capolinea passano per Parabiago e Legnano ✅<br>
+            Controllate che nella lista fermate compaiano <em>Parabiago</em> o <em>Legnano</em>.
+          </div>
+        </div>
+
+        <div class="avviso avviso-verde" style="margin-top:.7rem">
+          <span class="avviso-icon">🟣</span>
+          <span><strong>Ragazzi di Magenta:</strong> prendete l'<span class="badge-linea bs5">S5</span> fino a <strong>Rho FS</strong>, poi cambiate sulla <span class="badge-linea bs6">S6</span> direzione <strong>Novara</strong> e scendete a <strong>Magenta</strong>.</span>
+        </div>
+
+        <a class="map-btn mbp" href="https://www.trenord.it/linee-e-orari/circolazione/orario-ferroviario/" target="_blank" style="margin-top:.6rem">🕐 Controlla orari di ritorno — Trenord S5</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTE IMPORTANTI -->
+  <div class="sezione-titolo">📌 Note importanti</div>
+  <div class="note-box">
+    <div class="note-titolo">💡 Leggete bene — soprattutto alla prima esperienza!</div>
+    <ul class="note-lista">
+      <li><span class="bul">✅</span> <span>Il biglietto ATM da <strong>€2,20</strong> si compra alle macchinette in stazione e vale <strong>90 minuti</strong> su tutta la rete milanese (metro, bus, tram). <strong>Tenetelo</strong> — i controllori ci sono!</span></li>
+      <li><span class="bul">✅</span> <span>Se non trovate la macchinetta, l'app <strong>ATM Milano</strong> permette di comprare il biglietto digitale dal telefono.</span></li>
+      <li><span class="bul">✅</span> <span>Sulla metro: <strong>lasciate scendere prima di salire</strong>, tenete liberi i posti riservati, parlate a voce bassa.</span></li>
+      <li><span class="bul">✅</span> <span>Il Villaggio è in un'area con accesso controllato. Seguite sempre le indicazioni del prof e rimanete in gruppo.</span></li>
+      <li><span class="bul">✅</span> <span>Uscita alle <strong>13:50 preciso</strong> — siate puntuali all'ingresso principale.</span></li>
+      <li><span class="bul">✅</span> <span>Telefono carico e screenshot di questa pagina — per ogni evenienza!</span></li>
+      <li><span class="bul">✅</span> <span>Per qualsiasi problema contattate subito il prof — non aspettate!</span></li>
+    </ul>
+  </div>
+
+  <!-- MAPPA COMPLETA -->
+  <div style="text-align:center; margin-top:2rem; animation: fadeUp 0.5s ease 0.5s both">
+    <a class="map-btn mbp" style="padding:.9rem 2rem; font-size:1.05rem; border-radius:50px; box-shadow:0 0 25px rgba(0,200,232,0.25)"
+       href="https://www.google.com/maps/dir/Stazione+Legnano/Stazione+Parabiago/Stazione+Rho/Stazione+Porta+Garibaldi+Milano/Via+Lorenzini+Milano"
+       target="_blank">
+      🗺️ Apri il percorso completo su Google Maps
+    </a>
+  </div>
+
+</div><!-- fine container -->
+
+<footer class="footer">
+  IIS Gregorio Mendel – Villa Cortese &nbsp;|&nbsp; Gita 5PA – Paralimpiadi Milano Cortina 2026 🏅<br>
+  <span style="color:rgba(200,230,255,.2)">Buona gita a tutti! Forza Italia! 🇮🇹</span>
+</footer>
+
+</body>
+</html>
